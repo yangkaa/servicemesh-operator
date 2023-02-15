@@ -46,6 +46,7 @@ spec:
             type: object
         required:
         - provisioner
+        - selector
         type: object
     served: true
     storage: true

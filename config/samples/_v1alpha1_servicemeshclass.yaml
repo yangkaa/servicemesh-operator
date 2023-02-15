@@ -7,6 +7,13 @@ metadata:
     app.kubernetes.io/part-of: servicemesh-operator
     app.kuberentes.io/managed-by: kustomize
     app.kubernetes.io/created-by: servicemesh-operator
-  name: servicemeshclass-sample
-spec:
-  # TODO(user): Add fields here
+  name: smcss
+description: "ServiceMeshClass is the Schema for the servicemeshclasses API"
+injectMethods:
+- method: label
+  name: servicemesh.rainbond.io/inject
+  value: "true"
+
+
+
+

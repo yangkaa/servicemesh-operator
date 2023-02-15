@@ -18,7 +18,9 @@ package main
 
 import (
 	"flag"
+	rainbondiov1alpha1 "github.com/goodrain/servicemesh-operator/pkg/api/v1alpha1"
 	"os"
+	"sigs.k8s.io/controller-runtime/pkg/healthz"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
@@ -28,10 +30,8 @@ import (
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	rainbondiov1alpha1 "github.com/goodrain/servicemesh-operator/api/v1alpha1"
 	"github.com/goodrain/servicemesh-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
@@ -96,6 +96,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ServiceMesh")
 		os.Exit(1)
 	}
+
 	//+kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {

@@ -26,7 +26,7 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 //+kubebuilder:resource:scope=Cluster
-//+genclient
+//+genclient:nonNamespaced
 
 // ServiceMeshClass is the Schema for the servicemeshclasses API
 type ServiceMeshClass struct {
@@ -37,12 +37,12 @@ type ServiceMeshClass struct {
 	Description string `json:"description,omitempty"`
 
 	// InjectMethods is the method of injecting sidecar
-	// +kubebuilder:validation:Enum=label;annotation
 	InjectMethods []InjectMethod `json:"injectMethods"`
 }
 
 // InjectMethod is the method of injecting sidecar
 type InjectMethod struct {
+	// Method is the method of injecting sidecar, label or annotation
 	// +kubebuilder:validation:Enum=label;annotation
 	Method string `json:"method"`
 

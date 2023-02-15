@@ -43,7 +43,7 @@ type ServiceMesh struct {
 	Provisioner string `json:"provisioner"`
 
 	// Selector query the relevant workload and inject it. Deployment and StatefulSet are currently supported
-	Selector map[string]string `json:"selector,omitempty"`
+	Selector map[string]string `json:"selector"`
 
 	// Status defines the observed state of ServiceMesh
 	Status ServiceMeshStatus `json:"status,omitempty"`

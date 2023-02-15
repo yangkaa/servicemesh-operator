@@ -13,7 +13,7 @@ spec:
     listKind: ServiceMeshClassList
     plural: servicemeshclasses
     singular: servicemeshclass
-  scope: Namespaced
+  scope: Cluster
   versions:
   - name: v1alpha1
     schema:
@@ -30,13 +30,12 @@ spec:
             type: string
           injectMethods:
             description: InjectMethods is the method of injecting sidecar
-            enum:
-            - label
-            - annotation
             items:
               description: InjectMethod is the method of injecting sidecar
               properties:
                 method:
+                  description: Method is the method of injecting sidecar, label or
+                    annotation
                   enum:
                   - label
                   - annotation
