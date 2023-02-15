@@ -1,0 +1,31 @@
+# permissions for end users to edit servicemeshclasses.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: servicemeshclass-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: servicemesh-operator
+    app.kubernetes.io/part-of: servicemesh-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: servicemeshclass-editor-role
+rules:
+- apiGroups:
+  - rainbond.io
+  resources:
+  - servicemeshclasses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - rainbond.io
+  resources:
+  - servicemeshclasses/status
+  verbs:
+  - get

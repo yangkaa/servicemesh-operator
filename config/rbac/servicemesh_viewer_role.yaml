@@ -1,0 +1,27 @@
+# permissions for end users to view servicemeshes.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: servicemesh-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: servicemesh-operator
+    app.kubernetes.io/part-of: servicemesh-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: servicemesh-viewer-role
+rules:
+- apiGroups:
+  - rainbond.io
+  resources:
+  - servicemeshes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - rainbond.io
+  resources:
+  - servicemeshes/status
+  verbs:
+  - get
