@@ -50,7 +50,21 @@ type InjectMethod struct {
 	Name string `json:"name"`
 
 	// Value is the value of the label or annotation
-	Value string `json:"value"`
+	Value string `json:"value,omitempty"`
+
+	// ValueFrom is the value form  label or annotation
+	ValueFrom *ValueFrom `json:"valueFrom,omitempty"`
+
+	// Cover whether to overwrite if the field exists
+	Cover bool `json:"cover,omitempty"`
+}
+
+type ValueFrom struct {
+	// type
+	// +kubebuilder:validation:Enum=label;annotation;name
+	Type string `json:"type"`
+	// label or annotation key
+	Name string `json:"name,omitempty"`
 }
 
 //+kubebuilder:object:root=true

@@ -99,19 +99,49 @@ func (r *ServiceMeshReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				logrus.Infof("get deployment error: %v", err)
 				return ctrl.Result{}, client.IgnoreNotFound(err)
 			}
-			if item.Method == "label" {
-				if deploy.Labels == nil {
-					deploy.Labels = make(map[string]string)
+			if deploy.Labels == nil {
+				deploy.Labels = make(map[string]string)
+			}
+			if deploy.Annotations == nil {
+				deploy.Annotations = make(map[string]string)
+			}
+			var value string
+			if item.Value != "" {
+				value = item.Value
+			} else if item.ValueFrom != nil {
+				if item.ValueFrom.Type == "label" {
+					value = deploy.Labels[item.ValueFrom.Name]
 				}
-				deploy.Labels[item.Name] = item.Value
-				deploy.Spec.Template.Labels[item.Name] = item.Value
+				if item.ValueFrom.Type == "annotation" {
+					value = deploy.Annotations[item.ValueFrom.Name]
+				}
+				if item.ValueFrom.Type == "name" {
+					value = deploy.Name
+				}
+			}
+			if item.Method == "label" {
+				if _, ok := deploy.Labels[item.Name]; !ok {
+					deploy.Labels[item.Name] = value
+				}
+				if _, ok := deploy.Spec.Template.Labels[item.Name]; !ok {
+					deploy.Spec.Template.Labels[item.Name] = value
+				}
+				if item.Cover {
+					deploy.Labels[item.Name] = value
+					deploy.Spec.Template.Labels[item.Name] = value
+				}
 			}
 			if item.Method == "annotation" {
-				if deploy.Annotations == nil {
-					deploy.Annotations = make(map[string]string)
+				if _, ok := deploy.Annotations[item.Name]; !ok {
+					deploy.Annotations[item.Name] = value
 				}
-				deploy.Annotations[item.Name] = item.Value
-				deploy.Spec.Template.Annotations[item.Name] = item.Value
+				if _, ok := deploy.Spec.Template.Annotations[item.Name]; !ok {
+					deploy.Spec.Template.Annotations[item.Name] = value
+				}
+				if item.Cover {
+					deploy.Annotations[item.Name] = value
+					deploy.Spec.Template.Annotations[item.Name] = value
+				}
 			}
 			err = r.Patch(ctx, &deploy, client.Merge)
 			if err != nil {
