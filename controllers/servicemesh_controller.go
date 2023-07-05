@@ -120,26 +120,18 @@ func (r *ServiceMeshReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				}
 			}
 			if item.Method == "label" {
-				if _, ok := deploy.Labels[item.Name]; !ok {
-					deploy.Labels[item.Name] = value
-				}
 				if _, ok := deploy.Spec.Template.Labels[item.Name]; !ok {
 					deploy.Spec.Template.Labels[item.Name] = value
 				}
 				if item.Cover {
-					deploy.Labels[item.Name] = value
 					deploy.Spec.Template.Labels[item.Name] = value
 				}
 			}
 			if item.Method == "annotation" {
-				if _, ok := deploy.Annotations[item.Name]; !ok {
-					deploy.Annotations[item.Name] = value
-				}
 				if _, ok := deploy.Spec.Template.Annotations[item.Name]; !ok {
 					deploy.Spec.Template.Annotations[item.Name] = value
 				}
 				if item.Cover {
-					deploy.Annotations[item.Name] = value
 					deploy.Spec.Template.Annotations[item.Name] = value
 				}
 			}
